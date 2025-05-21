@@ -45,3 +45,10 @@ button:hover {
 canvas {
   display: block;
 }
+#camera-toggle {
+  background: #2196F3;
+}
+
+#camera-toggle:hover {
+  background: #0b7dda;
+}
