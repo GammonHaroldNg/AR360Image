@@ -3,23 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>360° Interactive Viewer</title>
+  <title>360° AR Viewer</title>
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
+  <div id="loader">Loading 360° Viewer...</div>
+  
   <div id="controls">
     <div class="control-group">
       <label for="opacity-slider">Transparency: </label>
       <input type="range" id="opacity-slider" min="0" max="1" step="0.01" value="1">
     </div>
     <div class="control-group">
-      <button id="reset-view">Reset View</button>
-      <button id="gyro-toggle">Enable Gyro</button>
       <button id="camera-toggle">Enable Camera</button>
-    </div>
-    <div class="control-group">
-      <button id="zoom-in">Zoom In</button>
-      <button id="zoom-out">Zoom Out</button>
+      <button id="reset-view">Reset View</button>
     </div>
   </div>
   
