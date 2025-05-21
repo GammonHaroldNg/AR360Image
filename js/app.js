@@ -18,7 +18,7 @@ const geometry = new THREE.SphereGeometry(500, 60, 40);
 geometry.scale(-1, 1, 1);
 
 // Replace with your 360 image URL
-const texture = new THREE.TextureLoader().load('assets/360-image.jpg');
+const texture = new THREE.TextureLoader().load('assets/Panorama 7D6346.jpg');
 const material = new THREE.MeshBasicMaterial({ 
   map: texture,
   transparent: true,
