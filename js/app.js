@@ -125,32 +125,85 @@ document.getElementById('gyro-toggle').addEventListener('click', () => {
 });
 
 // Camera AR view (existing functionality)
+// Camera variables
+let videoSphere = null;
+let videoStream = null;
+let isCameraActive = false;
+
+// Camera setup function
 async function setupCamera() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ 
-      video: { facingMode: 'environment' } 
+      video: { 
+        facingMode: 'environment',
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      } 
     });
     videoStream = stream;
     
+    // Create video element
     const video = document.createElement('video');
     video.srcObject = stream;
     video.play();
     
+    // Create flat camera view (not 360)
     const videoTexture = new THREE.VideoTexture(video);
     const videoMaterial = new THREE.MeshBasicMaterial({ 
       map: videoTexture,
-      side: THREE.BackSide
+      transparent: true,
+      opacity: 0.5 // Start at 50% transparency
     });
     
-    const videoGeometry = new THREE.SphereGeometry(490, 60, 40);
+    // Create flat plane instead of sphere
+    const videoGeometry = new THREE.PlaneGeometry(1000, 500);
     videoSphere = new THREE.Mesh(videoGeometry, videoMaterial);
+    videoSphere.position.z = -500; // Position behind the 360 image
     scene.add(videoSphere);
     
+    return true;
   } catch(err) {
     console.error("Camera error:", err);
     alert("Camera access is required for AR functionality");
+    return false;
   }
 }
+
+// Camera toggle function
+async function toggleCamera() {
+  if (!isCameraActive) {
+    const success = await setupCamera();
+    if (success) {
+      isCameraActive = true;
+      document.getElementById('camera-toggle').textContent = "Disable Camera";
+      // Set 360 image to 50% opacity
+      material.opacity = 0.5;
+      document.getElementById('opacity-slider').value = 0.5;
+    }
+  } else {
+    // Disable camera
+    videoStream.getTracks().forEach(track => track.stop());
+    videoStream = null;
+    scene.remove(videoSphere);
+    videoSphere = null;
+    isCameraActive = false;
+    document.getElementById('camera-toggle').textContent = "Enable Camera";
+    // Reset 360 image to full opacity
+    material.opacity = 1.0;
+    document.getElementById('opacity-slider').value = 1.0;
+  }
+}
+
+// Add event listener for the camera button
+document.getElementById('camera-toggle').addEventListener('click', toggleCamera);
+
+// Remove the old opacity-slider event listener and replace with this:
+document.getElementById('opacity-slider').addEventListener('input', function() {
+  material.opacity = parseFloat(this.value);
+  if (videoSphere) {
+    videoSphere.material.opacity = 1 - parseFloat(this.value);
+  }
+});
 
 // Opacity control (existing functionality)
 document.getElementById('opacity-slider').addEventListener('input', function() {
