@@ -33,22 +33,37 @@ button {
   padding: 8px 15px;
   border: none;
   border-radius: 4px;
-  background: #4CAF50;
-  color: white;
   cursor: pointer;
 }
 
-button:hover {
-  background: #45a049;
+#camera-toggle {
+  background: #2196F3;
+  color: white;
+}
+
+#camera-toggle:hover {
+  background: #0b7dda;
+}
+
+#reset-view {
+  background: #f44336;
+  color: white;
+}
+
+#reset-view:hover {
+  background: #d32f2f;
 }
 
 canvas {
   display: block;
 }
-#camera-toggle {
-  background: #2196F3;
-}
 
-#camera-toggle:hover {
-  background: #0b7dda;
+#loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.5em;
+  z-index: 10;
 }
